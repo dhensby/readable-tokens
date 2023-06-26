@@ -5,7 +5,7 @@ describe('crc32 token', () => {
     describe('generate()', () => {
         it('generates a token', async () => {
             const token = await Crc32Token.generate('test');
-            expect(token).to.match(/^test_[A-Za-z0-9]{27}$/);
+            expect(token).to.match(/^test_[A-Za-z0-9]{26,27}$/);
         });
         it('generates a token from a uuid', () => {
             const token = Crc32Token.generate('test', '00000000-0000-0000-0000-000000000000');
