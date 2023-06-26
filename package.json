@@ -12,6 +12,9 @@
     "preversion": "npm run lint",
     "test": "mocha -r ts-node/register './test/**/*.ts'"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dhensby/readable-tokens.git"
