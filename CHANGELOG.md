@@ -1,3 +1,12 @@
+# Changelog
+
+## [0.2.2](https://github.com/dhensby/readable-tokens/compare/v0.2.1...v0.2.2) (2023-06-26)
+
+
+### Bug Fixes
+
+* update changelog.md ([cecc1b5](https://github.com/dhensby/readable-tokens/commit/cecc1b560be3c7c5f48253655cdf4a4fb493d87a))
+
 ## [0.2.1](https://github.com/dhensby/readable-tokens/compare/v0.2.0...v0.2.1) (2023-06-26)
 
 ### Bug Fixes
