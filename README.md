@@ -45,7 +45,7 @@ As inspired by GitHub tokens, and to provide a way to be able to do some quick o
 the `Crc32Token`, which integrates a [CRC32 check value](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) into the
 token value.
 
-The token encoding is inspired by the GitHub tokens; the have a prefix, and then arbitrary binary data that is then
+The token encoding is inspired by the GitHub tokens; they have a prefix, and then arbitrary binary data that is then
 encoded in [base62](https://en.wikipedia.org/wiki/Base62), for a better developer experience (easy copy & paste).
 
 ### Custom tokens
