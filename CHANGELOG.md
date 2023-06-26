@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/dhensby/readable-tokens/compare/v0.2.0...v0.2.1) (2023-06-26)
+
+
+### Bug Fixes
+
+* add changlog changes earlier in release process ([399e6a0](https://github.com/dhensby/readable-tokens/commit/399e6a0e93bf51dedf36db77bcb797744d917617))
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
