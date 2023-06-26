@@ -1,34 +1,28 @@
 ## [0.2.1](https://github.com/dhensby/readable-tokens/compare/v0.2.0...v0.2.1) (2023-06-26)
 
-
 ### Bug Fixes
 
 * add changlog changes earlier in release process ([399e6a0](https://github.com/dhensby/readable-tokens/commit/399e6a0e93bf51dedf36db77bcb797744d917617))
 
-# Changelog
+## [0.2.0](https://github.com/dhensby/readable-tokens/compare/v0.1.1...v0.2.0) (2023-06-26)
 
-All notable changes to this project will be documented in this file.
+### Bug Fixes
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+* add changelog changes earlier in release process
 
-## [0.1.1] - 2023-06-26
+## [0.1.1](https://github.com/dhensby/readable-tokens/compare/v0.1.0...v0.1.1) (2023-06-26)
 
 ### Added
 
- - Added CHANGELOG.md
+* Added CHANGELOG.md
 
 ### Fixed
 
- - Fixed typo in readme
- - Fixed published files
+* Fixed typo in readme
+* Fixed published files
 
-## [0.1.0] - 2023-06-26
+## [0.1.0](https://github.com/dhensby/readable-tokens/releases/tag/v0.1.0) (2023-06-26)
 
 ### Added
 
- - Initial release
-
-[unreleased]: https://github.com/dhensby/readable-tokens/compare/v0.1.1...HEAD
-[0.1.1]: https://github.com/dhensby/readable-tokens/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/dhensby/readable-tokens/releases/tag/v0.1.0
+* Initial release
