@@ -58,7 +58,6 @@ describe('custom token', () => {
         });
         it('generates a token from encoded data', () => {
             const token = customTokenType.generate('test', '+VlfOfBCSFtOHetE0cqE1w==', 'base64');
-            console.log(token);
             expect(token).to.equal('test_+VlfOfBCSFtOHetE0cqE19cbEGA');
         });
         it('errors for invalid UUID', () => {
