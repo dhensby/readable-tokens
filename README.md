@@ -51,11 +51,25 @@ encoded in [base62](https://en.wikipedia.org/wiki/Base62), for a better develope
 ### Custom tokens
 
 The library allows you to provide your own encoder if you wish to use a different encoding scheme or alphabet. There is
-also the ability to provide your own integrity checking logic if you don't want to use CRC32.
+also the ability to provide your own integrity checking logic if you don't want to use CRC32. 
+
+Here is an example of a token that uses a truncated HMAC for integrity checking and native Base64 for encoding:
 
 ```js
-const { createHmac } = require('crypto');
+const { createHmac, timingSafeEqual } = require('crypto');
 const { ReadableTokenGenerator } = require('readable-tokens');
+
+function truncatedHash(val) {
+    const hash = createHmac('sha256', 'secret').update(val).digest();
+    const offset = hash[hash.length - 1] & 0x0F;
+    const truncated = (hash[offset] & 0x7F) << 24 |
+        (hash[offset + 1] & 0xFF) << 16 |
+        (hash[offset + 2] & 0xFF) <<  8 |
+        (hash[offset + 3] & 0xFF);
+    const buf = Buffer.alloc(4);
+    buf.writeUInt32LE(truncated);
+    return buf;
+}
 
 const customTokenType = new ReadableTokenGenerator({
     // encode as base64 using native buffer support
@@ -66,13 +80,13 @@ const customTokenType = new ReadableTokenGenerator({
     // append a sha256 hmac
     integrity: {
         generate(val) {
-            return Buffer.concat([val, createHmac('sha256', 'secret').update(val).digest()]);
+            return Buffer.concat([val, truncatedHash(val)]);
         },
         check(val) {
             // everything up to the last 32 bytes is the raw data
-            const payload = val.subarray(0, -32);
-            const hmac = val.subarray(-32);
-            if (createHmac('sha256', 'secret').update(payload).digest().equals(hmac)) {
+            const payload = val.subarray(0, -4);
+            const check = val.subarray(-4);
+            if (timingSafeEqual(truncatedHash(val), check)) {
                 // all good
                 return payload;
             }
