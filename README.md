@@ -77,13 +77,12 @@ const customTokenType = new ReadableTokenGenerator({
         encode: (val) => Buffer.from(val).toString('base64').replace(/=+$/, ''),
         decode: (val) => Buffer.from(val, 'base64'),
     },
-    // append a sha256 hmac
     integrity: {
         generate(val) {
             return Buffer.concat([val, truncatedHash(val)]);
         },
         check(val) {
-            // everything up to the last 32 bytes is the raw data
+            // everything up to the last 4 bytes is the raw data
             const payload = val.subarray(0, -4);
             const check = val.subarray(-4);
             if (timingSafeEqual(truncatedHash(val), check)) {
