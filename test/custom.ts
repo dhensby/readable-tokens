@@ -1,4 +1,4 @@
-import { ReadableTokenGenerator } from '../src';
+import { InvalidTokenError, ReadableTokenGenerator } from '../src';
 import { createHmac, timingSafeEqual } from 'crypto';
 import { expect } from 'chai';
 
@@ -92,6 +92,7 @@ describe('custom token', () => {
             try {
                 customTokenType.validate('test_js4wurH8SUSHWHWyDrwcx4Hr3Cc', 'testing');
             } catch (e) {
+                expect(e).to.be.instanceOf(InvalidTokenError);
                 expect(e).to.have.property('message', 'Prefix mismatch');
                 return;
             }

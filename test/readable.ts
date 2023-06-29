@@ -1,4 +1,4 @@
-import { ReadableToken } from '../src/';
+import { InvalidTokenError, ReadableToken } from '../src/';
 import { expect } from 'chai';
 
 describe('readable token', () => {
@@ -55,6 +55,7 @@ describe('readable token', () => {
             try {
                 ReadableToken.validate('test_KNJYokHOindxbwRAd4MRNhPA6a5', 'testing');
             } catch (e) {
+                expect(e).to.be.instanceOf(InvalidTokenError);
                 expect(e).to.have.property('message', 'Prefix mismatch');
                 return;
             }
