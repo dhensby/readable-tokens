@@ -98,5 +98,15 @@ describe('custom token', () => {
             }
             expect.fail('expected to throw');
         });
+        it('throws for missing prefix', () => {
+            try {
+                customTokenType.validate('js4wurH8SUSHWHWyDrwcx4Hr3Cc');
+            } catch (e) {
+                expect(e).to.be.instanceOf(InvalidTokenError);
+                expect(e).to.have.property('message', 'Malformed token');
+                return;
+            }
+            expect.fail('expected to throw');
+        });
     });
 });
