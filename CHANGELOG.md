@@ -1,5 +1,17 @@
 # Changelog
 
+# [0.3.0](https://github.com/dhensby/readable-tokens/compare/v0.2.2...v0.3.0) (2023-06-29)
+
+
+### Bug Fixes
+
+* catch sync errors from rng ([11a4406](https://github.com/dhensby/readable-tokens/commit/11a4406c727e7953104e2db4f75e175a94ef6649))
+
+
+### Features
+
+* add concrete error classes ([d7cb4e1](https://github.com/dhensby/readable-tokens/commit/d7cb4e1cd51ef2c801e5102f56d92e1c8b795724))
+
 ## [0.2.2](https://github.com/dhensby/readable-tokens/compare/v0.2.1...v0.2.2) (2023-06-26)
 
 
