@@ -1,4 +1,4 @@
-import { ReadableTokenGenerator } from '../src';
+import { InvalidTokenError, ReadableTokenGenerator } from '../src';
 import { createHmac, timingSafeEqual } from 'crypto';
 import { expect } from 'chai';
 
@@ -92,7 +92,18 @@ describe('custom token', () => {
             try {
                 customTokenType.validate('test_js4wurH8SUSHWHWyDrwcx4Hr3Cc', 'testing');
             } catch (e) {
+                expect(e).to.be.instanceOf(InvalidTokenError);
                 expect(e).to.have.property('message', 'Prefix mismatch');
+                return;
+            }
+            expect.fail('expected to throw');
+        });
+        it('throws for missing prefix', () => {
+            try {
+                customTokenType.validate('js4wurH8SUSHWHWyDrwcx4Hr3Cc');
+            } catch (e) {
+                expect(e).to.be.instanceOf(InvalidTokenError);
+                expect(e).to.have.property('message', 'Malformed token');
                 return;
             }
             expect.fail('expected to throw');

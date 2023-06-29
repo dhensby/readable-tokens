@@ -1,5 +1,6 @@
 import { buf } from 'crc-32';
 import { timingSafeEqual } from 'crypto';
+import { InvalidTokenError } from '../error';
 
 function calculateCrc32(val: Uint8Array): Buffer {
     const crc32 = Buffer.allocUnsafe(4);
@@ -17,7 +18,7 @@ export function check(val: Uint8Array): Uint8Array {
     const data = val.subarray(0, -4);
     const crc32 = val.subarray(-4);
     if (!timingSafeEqual(crc32, calculateCrc32(data))) {
-        throw new Error('Invalid CRC32 check value');
+        throw new InvalidTokenError('Invalid CRC32 check value');
     }
     return data;
 }

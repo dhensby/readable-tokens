@@ -1,4 +1,4 @@
-import { Crc32Token } from '../src/';
+import { InvalidTokenError, Crc32Token } from '../src/';
 import { expect } from 'chai';
 
 describe('crc32 token', () => {
@@ -55,7 +55,28 @@ describe('crc32 token', () => {
             try {
                 Crc32Token.validate('test_KNJYokHOindxbwRAd4MRNhPA6a5', 'testing');
             } catch (e) {
+                expect(e).to.be.instanceOf(InvalidTokenError);
                 expect(e).to.have.property('message', 'Prefix mismatch');
+                return;
+            }
+            expect.fail('expected to throw');
+        });
+        it('throws for missing prefix', () => {
+            try {
+                Crc32Token.validate('KNJYokHOindxbwRAd4MRNhPA6a5');
+            } catch (e) {
+                expect(e).to.be.instanceOf(InvalidTokenError);
+                expect(e).to.have.property('message', 'Malformed token');
+                return;
+            }
+            expect.fail('expected to throw');
+        });
+        it('throws for bad CRC value', () => {
+            try {
+                Crc32Token.validate('test_KNJYokHOindxbwRAd4MRNhPA6a4');
+            } catch (e) {
+                expect(e).to.be.instanceOf(InvalidTokenError);
+                expect(e).to.have.property('message', 'Invalid CRC32 check value');
                 return;
             }
             expect.fail('expected to throw');

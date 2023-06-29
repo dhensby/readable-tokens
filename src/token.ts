@@ -1,5 +1,6 @@
 import { rng } from './util/rng';
 import { parse as parseUuid, stringify as formatUuid } from 'uuid';
+import { InvalidTokenError } from './error';
 
 export interface Token {
     prefix: string;
@@ -104,12 +105,12 @@ export function ReadableTokenGenerator({ encoder, integrity }: TokenOpts): Token
         validate(token: string, expectedPrefix?: string): Token {
             const parts = token.split('_');
             if (parts.length <= 1) {
-                throw new Error('Malformed token');
+                throw new InvalidTokenError('Malformed token');
             }
             const raw = integrity.check(encoder.decode(parts.pop() as string));
             const prefix = parts.join('_');
             if (expectedPrefix && expectedPrefix !== prefix) {
-                throw new Error('Prefix mismatch');
+                throw new InvalidTokenError('Prefix mismatch');
             }
             const t: Token = {
                 prefix,
