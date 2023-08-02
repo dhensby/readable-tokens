@@ -93,7 +93,7 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Test code
-        run: npm run test:coverage --silent -- npm test -- --forbid-only
+        run: npm run coverage -- --forbid-only
       - name: Code Coverage Summary
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
