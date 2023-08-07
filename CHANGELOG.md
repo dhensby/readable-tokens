@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.0.0](https://github.com/dhensby/readable-tokens/compare/v0.3.0...v1.0.0) (2023-08-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* This refactors the encoders/validators to be classes which are instantiated and
+used.
+
+The Base62Encoder is replaced with a generic `BaseXEncoder` which allows consumers to provider
+their own alphabets, if needed.
+
+This change means the exports of the library have changed and so this is a breaking change for
+those that relied on some of those exports.
+
+### Features
+
+* make encoders and validators classes ([a00d91a](https://github.com/dhensby/readable-tokens/commit/a00d91a75f6b01149ca261e7e480c47e0dcbf168))
+
 # [0.3.0](https://github.com/dhensby/readable-tokens/compare/v0.2.2...v0.3.0) (2023-06-29)
 
 

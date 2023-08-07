@@ -1,6 +1,6 @@
 {
   "name": "readable-tokens",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Readable tokens for Node.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
