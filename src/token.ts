@@ -1,6 +1,8 @@
 import { rng } from './util/rng';
 import { parse as parseUuid, stringify as formatUuid } from 'uuid';
 import { InvalidTokenError } from './error';
+import { Encoder } from './encoder';
+import { Validator } from './validator';
 
 export interface Token {
     prefix: string;
@@ -59,19 +61,9 @@ export interface TokenGenerator {
     validate(token: string, prefix?: string): Token;
 }
 
-export interface Encoder {
-    encode(data: Uint8Array): string;
-    decode(data: string): Uint8Array;
-}
-
-export interface Integrity {
-    check(data: Uint8Array): Uint8Array;
-    generate(data: Uint8Array): Uint8Array;
-}
-
 export interface TokenOpts {
     encoder: Encoder;
-    integrity: Integrity;
+    integrity: Validator;
 }
 
 function generate(prefix: string, byteLength: number): Promise<string>;
@@ -129,5 +121,5 @@ export function ReadableTokenGenerator({ encoder, integrity }: TokenOpts): Token
             });
             return t;
         },
-    }
+    };
 }

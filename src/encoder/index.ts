@@ -1,1 +1,2 @@
-export * as Base62Encoder from './base62'
+export * from './basex';
+export * from './encoder';
