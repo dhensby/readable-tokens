@@ -1,1 +1,2 @@
-export * as Crc32Validator from './crc32';
+export * from './crc32';
+export * from './validator';

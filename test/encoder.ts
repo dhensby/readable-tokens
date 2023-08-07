@@ -1,9 +1,12 @@
 import { expect } from 'chai';
-import { Base62Encoder } from '../src';
+import { BaseXEncoder } from '../src';
 
 describe('Base62Encoder', () => {
     it('has methods', () => {
-        expect(Base62Encoder).to.have.property('encode');
-        expect(Base62Encoder).to.have.property('decode');
+        const inst = new BaseXEncoder({
+            alphabet: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+        });
+        expect(inst).to.have.property('encode');
+        expect(inst).to.have.property('decode');
     });
 });
