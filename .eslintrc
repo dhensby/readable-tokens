@@ -23,6 +23,7 @@
     "prefer-arrow-callback": ["error", { "allowNamedFunctions": true }],
     "prefer-template": ["error"],
     "quote-props": ["error", "consistent-as-needed"],
-    "quotes": ["error", "single"]
+    "quotes": ["error", "single"],
+    "semi": ["error"]
   }
 }
