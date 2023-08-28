@@ -32,13 +32,12 @@ const token = await Crc32Token.generate('prefix', '8ece30ba-b1fc-4944-8758-75b20
 NB: It's important to note that this library isn't hiding or making the UUID a secret, it's just a different format to
 represent the data that is encoded in a UUID.
 
-
 ## Token Types
 
 There are two types of tokens available in the library by default. A "plain" `ReadableToken`, which has no integrity
 checking, which means it is faster to generate, but at the trade-off that there is no ability to check the integrity of
-tokens without hitting a database or token store. This could be something worth thinking about when you're thinking of 
-trying to reject tokens [at the edge](https://en.wikipedia.org/wiki/Edge_computing), or when you want to be able to use
+tokens without hitting a database or token store. This could be something worth thinking about when you may want to 
+reject tokens [at the edge](https://en.wikipedia.org/wiki/Edge_computing), or when you want to be able to use
 efficient [secret scanning](https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning).
 
 As inspired by GitHub tokens, and to provide a way to be able to do some quick offline validation of tokens, there is
@@ -91,6 +90,24 @@ const customTokenType = new ReadableTokenGenerator({
             }
             throw new Error('HMAC did not validate');
         },
+    },
+});
+```
+
+### Custom encoding aplphabets
+
+The library also exports a `BaseXEncoder` class which is instantiated with an `alphabet` prop. This allows for the use
+of a custom alphabet.
+
+```js
+const { BaseXEncoder, ReadableTokenGenerator } = require('readable-tokens');
+const encoder = new BaseXEncoder({ alphabet: 'abcdefghijklmnopqrstuvwxyz' });
+
+const customTokenType = new ReadableTokenGenerator({
+    // encode as base64 using native buffer support
+    encoder: {
+        encode: (val) => Buffer.from(val).toString('base64').replace(/=+$/, ''),
+        decode: (val) => Buffer.from(val, 'base64'),
     },
 });
 ```
