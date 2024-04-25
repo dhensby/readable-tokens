@@ -36,13 +36,14 @@ const customTokenType = ReadableTokenGenerator({
             throw new Error('HMAC did not validate');
         },
     },
+    prng: (length: number) => Promise.resolve(Buffer.from(new Array(length).fill(255))),
 });
 
 describe('custom token', () => {
     describe('generate()', () => {
-        it('generates a token', async () => {
+        it('generates a token using the supplied "prng"', async () => {
             const token = await customTokenType.generate('test');
-            expect(token).to.match(/^test_[A-Za-z0-9+/]{27}$/);
+            expect(token).to.equal('test_/////////////////////0J4sGg');
         });
         it('generates a token from a uuid', () => {
             const token = customTokenType.generate('test', '00000000-0000-0000-0000-000000000000');
@@ -50,7 +51,7 @@ describe('custom token', () => {
         });
         it('generates a token of arbitrary length', async () => {
             const token = await customTokenType.generate('test', 32);
-            expect(token).to.match(/^test_[A-Za-z0-9+/]+$/);
+            expect(token).to.equal('test_///////////////////////////////////////////x3Sgl');
         });
         it('generates a token from a buffer', () => {
             const token = customTokenType.generate('test', Buffer.from('GQI42CPM9GC'));
