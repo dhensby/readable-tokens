@@ -63,7 +63,7 @@ export interface TokenGenerator {
 
 export interface TokenOpts {
     encoder: Encoder;
-    integrity: Validator;
+    integrity?: Validator;
 }
 
 function generate(prefix: string, byteLength: number): Promise<string>;
@@ -89,8 +89,18 @@ function generate(this: { format: (prefix: string, val: Uint8Array) => string },
 }
 
 export function ReadableTokenGenerator({ encoder, integrity }: TokenOpts): TokenGenerator {
+    if (!integrity) {
+        integrity = {
+            check(data: Uint8Array): Uint8Array {
+                return data;
+            },
+            generate(data: Uint8Array): Uint8Array {
+                return data;
+            },
+        };
+    }
     const formatToken = (prefix: string, data: Uint8Array) => {
-        return `${prefix}_${encoder.encode(integrity.generate(data))}`;
+        return `${prefix}_${encoder.encode(integrity!.generate(data))}`;
     };
     return {
         generate: generate.bind({ format: formatToken }),
@@ -99,7 +109,7 @@ export function ReadableTokenGenerator({ encoder, integrity }: TokenOpts): Token
             if (parts.length <= 1) {
                 throw new InvalidTokenError('Malformed token');
             }
-            const raw = integrity.check(encoder.decode(parts.pop() as string));
+            const raw = integrity!.check(encoder.decode(parts.pop() as string));
             const prefix = parts.join('_');
             if (expectedPrefix && expectedPrefix !== prefix) {
                 throw new InvalidTokenError('Prefix mismatch');
