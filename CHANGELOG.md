@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/dhensby/readable-tokens/compare/v1.0.0...v1.1.0) (2024-04-25)
+
+
+### Features
+
+* allow consumers to pass in their own PRNG ([4e5ccad](https://github.com/dhensby/readable-tokens/commit/4e5ccadf4975244d76ab0e67a047db8c8fe786bd))
+
+
+### Bug Fixes
+
+* ensure prng returns a promise ([38d9be5](https://github.com/dhensby/readable-tokens/commit/38d9be5280c2c28fa76075c01cfac769bb5874cc))
+
 ## [1.0.0](https://github.com/dhensby/readable-tokens/compare/v0.3.0...v1.0.0) (2023-08-07)
 
 
