@@ -19,6 +19,7 @@ updates:
           - "@commitlint/*"
           - "semantic-release"
           - "@semantic-release/*"
+          - "conventional-changelog-*"
       build-tools:
         patterns:
           - "@types/*"
