@@ -64,6 +64,7 @@ export interface TokenGenerator {
 export interface TokenOpts {
     encoder: Encoder;
     integrity: Validator;
+    prng?: typeof rng;
 }
 
 function generate(prefix: string, byteLength: number): Promise<string>;
@@ -71,11 +72,11 @@ function generate(prefix: string, data: string, encoding: BufferEncoding): strin
 function generate(prefix: string, uuid: string): string;
 function generate(prefix: string, raw: Uint8Array): string;
 function generate(prefix: string): Promise<string>;
-function generate(this: { format: (prefix: string, val: Uint8Array) => string }, prefix: string, seed?: Uint8Array | number | string, encoding?: BufferEncoding | 'uuid'): string | Promise<string> {
+function generate(this: { prng: typeof rng, format: (prefix: string, val: Uint8Array) => string }, prefix: string, seed?: Uint8Array | number | string, encoding?: BufferEncoding | 'uuid'): string | Promise<string> {
     let payload = seed;
     // no seed, or seed length supplied
     if (typeof payload === 'number' || typeof payload === 'undefined') {
-        return rng(payload ?? 16).then((rand) => this.format(prefix, rand));
+        return this.prng(payload ?? 16).then((rand) => this.format(prefix, rand));
     }
     // a string (assume UUID) supplied
     if (typeof payload === 'string') {
@@ -88,12 +89,12 @@ function generate(this: { format: (prefix: string, val: Uint8Array) => string },
     return this.format(prefix, payload);
 }
 
-export function ReadableTokenGenerator({ encoder, integrity }: TokenOpts): TokenGenerator {
+export function ReadableTokenGenerator({ encoder, integrity, prng }: TokenOpts): TokenGenerator {
     const formatToken = (prefix: string, data: Uint8Array) => {
         return `${prefix}_${encoder.encode(integrity.generate(data))}`;
     };
     return {
-        generate: generate.bind({ format: formatToken }),
+        generate: generate.bind({ prng: prng ?? rng, format: formatToken }),
         validate(token: string, expectedPrefix?: string): Token {
             const parts = token.split('_');
             if (parts.length <= 1) {
