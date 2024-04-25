@@ -76,7 +76,7 @@ function generate(this: { prng: typeof rng, format: (prefix: string, val: Uint8A
     let payload = seed;
     // no seed, or seed length supplied
     if (typeof payload === 'number' || typeof payload === 'undefined') {
-        return this.prng(payload ?? 16).then((rand) => this.format(prefix, rand));
+        return Promise.resolve(this.prng(payload ?? 16)).then((rand) => this.format(prefix, rand));
     }
     // a string (assume UUID) supplied
     if (typeof payload === 'string') {
