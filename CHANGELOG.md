@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/dhensby/readable-tokens/compare/v1.1.0...v1.2.0) (2024-09-17)
+
+
+### Features
+
+* update uuid dependency version ([a3b4425](https://github.com/dhensby/readable-tokens/commit/a3b44256a62e9b3b73092a53470a41fb20184f09))
+
 ## [1.1.0](https://github.com/dhensby/readable-tokens/compare/v1.0.0...v1.1.0) (2024-04-25)
 
 
