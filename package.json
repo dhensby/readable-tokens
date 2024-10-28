@@ -47,7 +47,6 @@
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
     "@types/node": "^16.18.37",
-    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.1",
     "@typescript-eslint/parser": "^8.0.1",
     "chai": "^4.3.7",
@@ -62,6 +61,6 @@
   "dependencies": {
     "base-x": "^4.0.0",
     "crc-32": "^1.2.2",
-    "uuid": "^10.0.0"
+    "uuid": "^11.0.1"
   }
 }
