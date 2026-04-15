@@ -94,7 +94,7 @@ const customTokenType = new ReadableTokenGenerator({
 });
 ```
 
-### Custom encoding aplphabets
+### Custom encoding alphabets
 
 The library also exports a `BaseXEncoder` class which is instantiated with an `alphabet` prop. This allows for the use
 of a custom alphabet.
@@ -103,11 +103,7 @@ of a custom alphabet.
 const { BaseXEncoder, ReadableTokenGenerator } = require('readable-tokens');
 const encoder = new BaseXEncoder({ alphabet: 'abcdefghijklmnopqrstuvwxyz' });
 
-const customTokenType = new ReadableTokenGenerator({
-    // encode as base64 using native buffer support
-    encoder: {
-        encode: (val) => Buffer.from(val).toString('base64').replace(/=+$/, ''),
-        decode: (val) => Buffer.from(val, 'base64'),
-    },
+const customTokenType = ReadableTokenGenerator({
+    encoder,
 });
 ```
