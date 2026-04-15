@@ -15,10 +15,6 @@ const Crc32Token = Token.ReadableTokenGenerator({
 });
 
 const ReadableToken = Token.ReadableTokenGenerator({
-    integrity: {
-        check: (data: Uint8Array) => data,
-        generate: (data: Uint8Array) => data,
-    },
     encoder: base62Encoder,
 });
 
