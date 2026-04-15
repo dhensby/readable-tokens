@@ -7,10 +7,8 @@ const base62Encoder = new BaseXEncoder({
     alphabet: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
 });
 
-const crc32Validator = new Crc32Validator();
-
 const Crc32Token = Token.ReadableTokenGenerator({
-    integrity: crc32Validator,
+    integrity: new Crc32Validator(base62Encoder),
     encoder: base62Encoder,
 });
 
