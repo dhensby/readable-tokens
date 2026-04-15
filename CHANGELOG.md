@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.0](https://github.com/dhensby/readable-tokens/compare/v1.2.0...v1.3.0) (2026-04-15)
+
+### Features
+
+* make integrity validator optional in ReadableTokenGenerator ([2db9f4d](https://github.com/dhensby/readable-tokens/commit/2db9f4dc4482c841322d598d7b301228f03392b4))
+
+### Bug Fixes
+
+* add explicit types to tsconfig for TypeScript 6 compatibility ([6a0d974](https://github.com/dhensby/readable-tokens/commit/6a0d974d64a06bd5d42ea5962431deda533a97b6))
+
 ## [1.2.0](https://github.com/dhensby/readable-tokens/compare/v1.1.0...v1.2.0) (2024-09-17)
 
 
