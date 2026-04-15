@@ -14,24 +14,25 @@ function truncatedHash(val: Uint8Array): Uint8Array {
     return buf;
 }
 
+const customEncoder = {
+    encode: (val: Uint8Array) => Buffer.from(val).toString('base64').replace(/=+$/, ''),
+    decode: (val: string) => Buffer.from(val, 'base64'),
+};
+
 const customTokenType = ReadableTokenGenerator({
-    // encode as base64 using native buffer support
-    encoder: {
-        encode: (val) => Buffer.from(val).toString('base64').replace(/=+$/, ''),
-        decode: (val) => Buffer.from(val, 'base64'),
-    },
-    // append a sha256 hmac
+    encoder: customEncoder,
     integrity: {
-        generate(val) {
-            return Buffer.concat([val, truncatedHash(val)]);
+        append(encoded) {
+            const raw = customEncoder.decode(encoded);
+            const withHmac = Buffer.concat([raw, truncatedHash(raw)]);
+            return customEncoder.encode(withHmac);
         },
-        check(val) {
-            // everything up to the last 4 bytes is the raw data
-            const payload = val.subarray(0, -4);
-            const check = val.subarray(-4);
+        verify(encoded) {
+            const raw = customEncoder.decode(encoded);
+            const payload = raw.subarray(0, -4);
+            const check = raw.subarray(-4);
             if (timingSafeEqual(truncatedHash(payload), check)) {
-                // all good
-                return payload;
+                return customEncoder.encode(payload);
             }
             throw new Error('HMAC did not validate');
         },
