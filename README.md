@@ -26,7 +26,7 @@ a UUID as a readable and verifiable token:
 ```js
 const { Crc32Token } = require('readable-tokens');
 
-const token = await Crc32Token.generate('prefix', '8ece30ba-b1fc-4944-8758-75b20ebc1cc7'); // test_KNJYokHOindxbwRAd4MRNhPA6a5
+const token = Crc32Token.generate('test', '8ece30ba-b1fc-4944-8758-75b20ebc1cc7'); // test_4LT8ewoFYhhUGOo3VNcKxD1AiVPO
 ```
 
 NB: It's important to note that this library isn't hiding or making the UUID a secret, it's just a different format to
@@ -70,23 +70,25 @@ function truncatedHash(val) {
     return buf;
 }
 
-const customTokenType = new ReadableTokenGenerator({
-    // encode as base64 using native buffer support
-    encoder: {
-        encode: (val) => Buffer.from(val).toString('base64').replace(/=+$/, ''),
-        decode: (val) => Buffer.from(val, 'base64'),
-    },
+const customEncoder = {
+    encode: (val) => Buffer.from(val).toString('base64').replace(/=+$/, ''),
+    decode: (val) => Buffer.from(val, 'base64'),
+};
+
+const customTokenType = ReadableTokenGenerator({
+    encoder: customEncoder,
     integrity: {
-        generate(val) {
-            return Buffer.concat([val, truncatedHash(val)]);
+        append(encoded) {
+            const raw = customEncoder.decode(encoded);
+            const withHmac = Buffer.concat([raw, truncatedHash(raw)]);
+            return customEncoder.encode(withHmac);
         },
-        check(val) {
-            // everything up to the last 4 bytes is the raw data
-            const payload = val.subarray(0, -4);
-            const check = val.subarray(-4);
-            if (timingSafeEqual(truncatedHash(val), check)) {
-                // all good
-                return payload;
+        verify(encoded) {
+            const raw = customEncoder.decode(encoded);
+            const payload = raw.subarray(0, -4);
+            const check = raw.subarray(-4);
+            if (timingSafeEqual(truncatedHash(payload), check)) {
+                return customEncoder.encode(payload);
             }
             throw new Error('HMAC did not validate');
         },

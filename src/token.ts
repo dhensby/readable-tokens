@@ -1,8 +1,8 @@
 import { rng } from './util/rng';
 import { parse as parseUuid, stringify as formatUuid } from 'uuid';
 import { InvalidTokenError } from './error';
-import { Encoder } from './encoder';
-import { Validator } from './validator';
+import type { Encoder } from './encoder';
+import type { Validator } from './validator';
 
 export interface Token {
     prefix: string;
@@ -90,12 +90,10 @@ function generate(this: { prng: typeof rng, format: (prefix: string, val: Uint8A
 }
 
 export function ReadableTokenGenerator({ encoder, integrity, prng }: TokenOpts): TokenGenerator {
-    const validator: Validator = integrity ?? {
-        check: (data: Uint8Array) => data,
-        generate: (data: Uint8Array) => data,
-    };
     const formatToken = (prefix: string, data: Uint8Array) => {
-        return `${prefix}_${encoder.encode(validator.generate(data))}`;
+        const encoded = encoder.encode(data);
+        const body = integrity ? integrity.append(encoded) : encoded;
+        return `${prefix}_${body}`;
     };
     return {
         generate: generate.bind({ prng: prng ?? rng, format: formatToken }),
@@ -104,11 +102,13 @@ export function ReadableTokenGenerator({ encoder, integrity, prng }: TokenOpts):
             if (parts.length <= 1) {
                 throw new InvalidTokenError('Malformed token');
             }
-            const raw = validator.check(encoder.decode(parts.pop() as string));
+            const body = parts.pop() as string;
             const prefix = parts.join('_');
             if (expectedPrefix && expectedPrefix !== prefix) {
                 throw new InvalidTokenError('Prefix mismatch');
             }
+            const verified = integrity ? integrity.verify(body) : body;
+            const raw = encoder.decode(verified);
             const t: Token = {
                 prefix,
                 raw,

@@ -34,7 +34,7 @@ npx mocha -r ts-node/register test/crc32.ts --grep "generates a token from a uui
 This library generates human-readable tokens (like GitHub's `ghp_...` or Stripe's `sk_...`) with the format `prefix_encodedPayload`. It is built around two pluggable interfaces:
 
 - **`Encoder`** (`src/encoder/encoder.ts`) — Serializes binary data to/from strings. The default implementation (`BaseXEncoder`) uses base62 via the `base-x` library.
-- **`Validator`** (`src/validator/validator.ts`) — Appends/verifies integrity bytes. The default implementation (`Crc32Validator`) appends a 4-byte CRC32 checksum. A no-op validator is used for the plain `ReadableToken`.
+- **`Validator`** (`src/validator/validator.ts`) — Appends/verifies an integrity checksum on encoded token bodies. The default implementation (`Crc32Validator`) computes a CRC32 checksum matching the GitHub token format. No validator is used for the plain `ReadableToken`.
 
 `ReadableTokenGenerator` (`src/token.ts`) is a factory function that composes an `Encoder` and `Validator` into a `TokenGenerator` with `generate()` and `validate()` methods. It is **not** a class — it returns a plain object implementing the `TokenGenerator` interface.
 
