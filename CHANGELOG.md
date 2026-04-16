@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.0.0](https://github.com/dhensby/readable-tokens/compare/v1.3.0...v2.0.0) (2026-04-16)
+
+### ⚠ BREAKING CHANGES
+
+* The Validator interface now works on encoded strings
+instead of raw byte arrays. Methods are renamed from generate/check
+to append/verify, and operate on base62-encoded token bodies.
+
+Crc32Validator now takes an Encoder in its constructor and computes
+CRC32 over the encoded payload string (big-endian, unsigned), matching
+the real GitHub token format. The checksum is base62-encoded and padded
+to a fixed 6 characters.
+
+Old-format tokens (CRC32 over raw bytes, little-endian) are still
+accepted via a best-effort fallback in verify(). This enables a
+seamless migration from old to new token format.
+
+The ChecksumValidator interface and Crc32ChecksumValidator class are
+removed — the Validator interface now handles everything.
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+### Features
+
+* redesign Validator to operate on encoded strings ([e209b1d](https://github.com/dhensby/readable-tokens/commit/e209b1d84a03fb4c3fe472adf342bde22bcdb77b))
+
 ## [1.3.0](https://github.com/dhensby/readable-tokens/compare/v1.2.0...v1.3.0) (2026-04-15)
 
 ### Features
