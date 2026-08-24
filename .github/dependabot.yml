@@ -13,6 +13,13 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    ignore:
+      # The 10.x preset requires conventional-changelog-writer@9+, but
+      # @semantic-release/release-notes-generator still depends on ^8.0.0.
+      # Pairing them silently drops every commit from the release notes.
+      # Remove this once release-notes-generator ships a writer 9 dependency.
+      - dependency-name: "conventional-changelog-conventionalcommits"
+        update-types: ["version-update:semver-major"]
     groups:
       release-tools:
         patterns:
