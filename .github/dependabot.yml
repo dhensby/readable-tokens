@@ -20,6 +20,14 @@ updates:
       # Remove this once release-notes-generator ships a writer 9 dependency.
       - dependency-name: "conventional-changelog-conventionalcommits"
         update-types: ["version-update:semver-major"]
+      # Mocha 12 declares engines "^20.19.0 || >=22.12.0" and uses import
+      # attributes, so it cannot run on Node 16 or 18 — both of which are still
+      # in the CI test matrix (see also @tsconfig/node16). Taking the major would
+      # fail those legs, and silently dropping them would leave the package
+      # claiming support for runtimes it never tests. Move this when the support
+      # floor is deliberately raised, not as a routine dependency bump.
+      - dependency-name: "mocha"
+        update-types: ["version-update:semver-major"]
     groups:
       release-tools:
         patterns:
